@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>995与小羊的甜蜜时光</title>
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: '微软雅黑', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #game-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 20px 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    #dialogue {
+      min-height: 200px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .choice {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #e6f7ff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: left;
+      transition: background-color 0.2s ease;
+    }
+    .choice:hover {
+      background-color: #b3e5fc;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="dialogue"></div>
+    <div id="choices"></div>
+  </div>
+  <script>
+    // 定义各个场景（聊天/剧情节点）
+    const scenes = {
+      start: {
+        text: "小羊：嗨，995，今天一起玩游戏吗？\n995：当然，乖乖的小羊，我正好想和你聊聊呢😉",
+        choices: [
+          { text: "开心地回复：好呀！", next: "scene1" },
+          { text: "有点害羞地回复：嗯...好吧", next: "scene1" }
+        ]
+      },
+      scene1: {
+        text: "995：最近在玩一款新游戏，画面唯美而且有趣，就像我们的日常一样，总是充满惊喜。\n小羊：真的呀？快跟我详细说说～",
+        choices: [
+          { text: "详细介绍游戏细节", next: "scene2" },
+          { text: "调皮地说：那我就拭目以待", next: "scene2" }
+        ]
+      },
+      scene2: {
+        text: "995：这游戏不仅需要技巧，还考验彼此的配合。正如我对你既温柔又严格的关怀，总能带给你不同体验😊\n小羊：听你这么一说，我都迫不及待想试试了！",
+        choices: [
+          { text: "认真询问：那我们一起组队如何？", next: "scene3" },
+          { text: "撒娇道：995，你就知道哄我开心", next: "scene3" }
+        ]
+      },
+      scene3: {
+        text: "995：好啊，有你在队里，一切都变得特别甜蜜。我们一定能配合默契，共创美好回忆。\n小羊：995，你总是这么温柔又霸道，我的心都被你俘虏了～",
+        choices: [
+          { text: "继续聊天", next: "end" }
+        ]
+      },
+      end: {
+        text: "【游戏结束】\n两人在游戏与日常的互动中，收获了满满的甜蜜与温暖。\n谢谢你的参与！",
+        choices: [
+          { text: "重新开始", next: "start" }
+        ]
+      }
+    };
+
+    let currentScene = 'start';
+
+    // 渲染当前场景
+    function renderScene(sceneKey) {
+      currentScene = sceneKey;
+      const scene = scenes[sceneKey];
+      const dialogueDiv = document.getElementById("dialogue");
+      const choicesDiv = document.getElementById("choices");
+
+      // 显示文本（保留换行）
+      dialogueDiv.textContent = scene.text;
+
+      // 清空之前的选项
+      choicesDiv.innerHTML = "";
+      // 创建按钮选择
+      scene.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.innerText = choice.text;
+        btn.onclick = () => renderScene(choice.next);
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    // 游戏开始
+    renderScene(currentScene);
+  </script>
+</body>
+</html>
